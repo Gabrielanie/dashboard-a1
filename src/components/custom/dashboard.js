@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [refresh, setRefresh] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, []);
+  }, [refresh]);
 
   return (
     <div className="w-full mt-9">
@@ -99,7 +99,7 @@ const Dashboard = () => {
             Description="New Users"
             open={isOpen}
             setIsOpen={setIsOpen}
-            Content={Content}
+            Content={<Content setIsOpen={setIsOpen} refresh={refresh} setRefresh={setRefresh} />}
           />
         </div>
         <div className="mt-4 flex justify-between px-6 items-center">

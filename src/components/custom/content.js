@@ -3,9 +3,8 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import axios from "axios";
 
-const Content = () => {
-
-    const baseUrl = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL;
+const Content = ({setIsOpen, setRefresh, refresh}) => {
+  const baseUrl = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL;
   const initialValues = {
     fullName: "",
     email: "",
@@ -27,18 +26,16 @@ const Content = () => {
     try {
       setAddUserLoading(true);
       const url = `${baseUrl}/users/`;
-      console.log("users >>>>>>>> ", url)
-      const response = await axios(url, {
-        method: "POST",
-        body: {
-          fullName: formValues.fullName,
-          email: formValues.email,
-          password: formValues.password,
-          role: formValues.selectedRole,
-        },
+      
+      await axios.post(url, {
+        fullName: formValues.fullName,
+        email: formValues.email,
+        password: formValues.password,
+        role: formValues.selectedRole,
       });
 
-      alert("success")
+      setIsOpen(false);
+      setRefresh(!refresh)
     } catch (error) {
       console.log("An error occurred", error);
     } finally {

@@ -25,7 +25,7 @@ const Modal = ({TriggerButton, Title, Description, Content, open, setIsOpen}) =>
             {Description}
           </DialogDescription>
         </DialogHeader>
-       <Content/>
+       {Content}
       </DialogContent>
     </Dialog>
   );
