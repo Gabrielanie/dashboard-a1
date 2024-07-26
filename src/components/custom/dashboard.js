@@ -12,9 +12,19 @@ const Dashboard = () => {
   const baseUrl = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL;
 
   const [data, setData] = useState([]);
+  const [mode, setMode] = useState("add");
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [userId, setUserId] = useState('')
   const [isOpen, setIsOpen] = useState(false);
+  const initialValues = {
+    fullName: "",
+    email: "",
+    password: "",
+    selectedRole: "",
+  };
+
+  const [formValues, setFormValues] = useState(initialValues);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,12 +104,23 @@ const Dashboard = () => {
           </div>
 
           <Modal
-            TriggerButton={<TriggerButton setIsOpen={setIsOpen} />}
+            TriggerButton={<TriggerButton setIsOpen={setIsOpen} setMode={setMode} />}
             Title={Title}
+            userId={userId}
             Description="New Users"
             open={isOpen}
             setIsOpen={setIsOpen}
-            Content={<Content setIsOpen={setIsOpen} refresh={refresh} setRefresh={setRefresh} />}
+            Content={
+              <Content
+                setIsOpen={setIsOpen}
+                formValues={formValues}
+                setFormValues={setFormValues}
+                refresh={refresh}
+                userId={userId}
+                mode={mode}
+                setRefresh={setRefresh}
+              />
+            }
           />
         </div>
         <div className="mt-4 flex justify-between px-6 items-center">
@@ -165,7 +186,20 @@ const Dashboard = () => {
                 {item?.role}
               </p>
               <div className="flex items-center gap-4">
-                <p className="text-[#0D6EFD] text-[12px] font-semibold cursor-pointer">
+                <p
+                  onClick={() => {
+                    setIsOpen(true);
+                    setMode("edit")
+                    setUserId(item.id)
+                    setFormValues({
+                      email: item.email,
+                      fullName: item.fullName,
+                      selectedRole: item.role,
+                      password: item.password
+                    });
+                  }}
+                  className="text-[#0D6EFD] text-[12px] font-semibold cursor-pointer"
+                >
                   Edit
                 </p>
                 <p className="text-[#98A2B3] text-[12px] cursor-pointer">

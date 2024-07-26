@@ -3,16 +3,16 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import axios from "axios";
 
-const Content = ({setIsOpen, setRefresh, refresh}) => {
+const Content = ({
+  setIsOpen,
+  setRefresh,
+  refresh,
+  formValues,
+  setFormValues,
+  mode,
+  userId
+}) => {
   const baseUrl = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL;
-  const initialValues = {
-    fullName: "",
-    email: "",
-    password: "",
-    selectedRole: "",
-  };
-
-  const [formValues, setFormValues] = useState(initialValues);
   const [addUserLoading, setAddUserLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -25,17 +25,29 @@ const Content = ({setIsOpen, setRefresh, refresh}) => {
     e.preventDefault();
     try {
       setAddUserLoading(true);
-      const url = `${baseUrl}/users/`;
-      
-      await axios.post(url, {
-        fullName: formValues.fullName,
-        email: formValues.email,
-        password: formValues.password,
-        role: formValues.selectedRole,
-      });
+      if (mode === "add") {
+        const url = `${baseUrl}/users/`;
+  
+        await axios.post(url, {
+          fullName: formValues.fullName,
+          email: formValues.email,
+          password: formValues.password,
+          role: formValues.selectedRole,
+        });
+
+      } else if (mode === "edit") {
+        const url = `${baseUrl}/users/${userId}`;
+  
+        await axios.put(url, {
+          fullName: formValues.fullName,
+          email: formValues.email,
+          password: formValues.password,
+          role: formValues.selectedRole,
+        });
+      }
 
       setIsOpen(false);
-      setRefresh(!refresh)
+      setRefresh(!refresh);
     } catch (error) {
       console.log("An error occurred", error);
     } finally {
@@ -115,7 +127,13 @@ const Content = ({setIsOpen, setRefresh, refresh}) => {
             }}
           />
         </div>
-        <Button className="bg-[#0D6EFD] text-[14px] mb-4">Add User</Button>
+        <Button className="bg-[#0D6EFD] text-[14px] mb-4">
+          {mode === "add"
+            ? "Add User"
+            : mode === "edit"
+            ? "Update User"
+            : "Delete User"}
+        </Button>
       </form>
     </div>
   );
