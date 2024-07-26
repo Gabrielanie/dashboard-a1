@@ -64,6 +64,7 @@ const Content = ({
             <input
               type="text"
               value={formValues.email}
+              required
               name="email"
               onChange={handleChange}
               placeholder="New User's Email Address"
@@ -82,6 +83,7 @@ const Content = ({
               type="text"
               value={formValues.fullName}
               name="fullName"
+              required
               onChange={handleChange}
               placeholder="New User's Full Name"
               className=" flex items-center text-[12px] gap-2 p-2 rounded-md w-full "
@@ -121,6 +123,7 @@ const Content = ({
               type="password"
               value={formValues.password}
               name="password"
+              required
               onChange={handleChange}
               placeholder="Create a password for New User"
               className=" flex text-[12px] items-center gap-2 p-2 rounded-md w-full "
