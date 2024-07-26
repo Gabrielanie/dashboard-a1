@@ -202,7 +202,11 @@ const Dashboard = () => {
                 >
                   Edit
                 </p>
-                <p className="text-[#98A2B3] text-[12px] cursor-pointer">
+                <p onClick={() => {
+                  setIsOpen(true);
+                  setUserId(item.id)
+                  setMode('delete')
+                }} className="text-[#98A2B3] text-[12px] cursor-pointer">
                   Delete
                 </p>
               </div>
