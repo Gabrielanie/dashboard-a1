@@ -4,6 +4,9 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Modal from "./modal";
 import { Button } from "../ui/button";
+import TriggerButton from "./trigger";
+import Title from "./title";
+import Content from "./content";
 
 const Dashboard = () => {
   const baseUrl = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL;
@@ -17,7 +20,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const url = `${baseUrl}/users/`;
-        console.log(url)
+        console.log(url);
         const data_ = await axios(url);
         console.log(data_.data);
         setData(data_.data);
@@ -28,55 +31,6 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
-
-  const initialValues = {
-    fullName: "",
-    email: "",
-    password: "",
-    selectedRole: "",
-  };
-
-  const [formValues, setFormValues] = useState(initialValues);
-  const [addUserLoading, setAddUserLoading] = useState(false);
-
-  const handleChange = (e) => {
-    e.preventDefault()
-    const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
-    console.log(formValues);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-      try {
-        setAddUserLoading(true);
-        const url = `${baseUrl}/users/`;
-        const response = await axios(url, {
-          method: "POST",
-          body: JSON.stringify({
-            fullName: formValues.fullName,
-            email: formValues.email,
-            password: formValues.password,
-            role: formValues.selectedRole,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.ok) {
-          console.log("done");
-          // navigation.push("/dashboard/users/admin/create/success");
-        } else {
-          console.error("Try again:", response.status);
-        }
-      } catch (error) {
-        console.error("An error occurred");
-      } finally {
-        setAddUserLoading(false);
-      }
-    }
-
 
   return (
     <div className="w-full mt-9">
@@ -140,113 +94,12 @@ const Dashboard = () => {
           </div>
 
           <Modal
-            Trigger={() => (
-              <Button
-                onClick={() => setIsOpen(true)}
-                className="flex items-center gap-2 w-[130px] justify-center bg-[#0D6EFD] rounded-lg p-3"
-              >
-                <Image
-                  src="/assets/buttonNewUsers.svg"
-                  alt="button"
-                  width={20}
-                  height={20}
-                />
-                <p className="text-white text-[14px] font-semibold">
-                  New Users
-                </p>
-              </Button>
-            )}
-            Title={() => (
-              <Image
-                src="/assets/addUsers.svg"
-                alt="add"
-                width={40}
-                height={40}
-              />
-            )}
+            TriggerButton={<TriggerButton setIsOpen={setIsOpen} />}
+            Title={Title}
             Description="New Users"
-            Content={() => (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-                <div className="flex flex-col gap-2">
-                  <label className="text-[14px] font-medium">
-                    Email Address
-                  </label>
-                  <input
-                    type="text"
-                    value={formValues.email}
-                    name="email"
-                    onChange={handleChange}
-                    placeholder="New User's Email Address"
-                    className=" flex items-center text-[12px] gap-2 p-2 rounded-md w-full "
-                    style={{
-                      border: "1px solid var(--Border-bd-dark, #DADAE7)",
-                      outlineStyle: "none",
-                    }}
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-[14px] font-medium text-[#475367]">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    value={formValues.fullName}
-                    name="fullName"
-                    onChange={handleChange}
-                    placeholder="New User's Full Name"
-                    className=" flex items-center text-[12px] gap-2 p-2 rounded-md w-full "
-                    style={{
-                      border: "1px solid var(--Border-bd-dark, #DADAE7)",
-                      outlineStyle: "none",
-                    }}
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-[14px] font-medium text-[#475367]">
-                    Role
-                  </label>
-                  <select
-                    name="selectedRole"
-                    value={formValues.selectedRole}
-                    onChange={handleChange}
-                    id=""
-                    style={{
-                      border: "1px solid var(--Border-bd-dark, #DADAE7)",
-                      outlineStyle: "none",
-                    }}
-                    className="w-100% text-[12px] px-5 py-2 rounded-lg flex gap-1"
-                  >
-                    <option value="">Select Role</option>
-                    <option value="">Admin</option>
-                    <option value="">Sales Manager</option>
-                    <option value="">Sales Representative</option>
-                  </select>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <label className="text-[14px] font-medium text-[#475367]">
-                    Create Password
-                  </label>
-                  <input
-                    type="password"
-                    value={formValues.password}
-                    name="password"
-                    onChange={handleChange}
-                    placeholder="Create a password for New User"
-                    className=" flex text-[12px] items-center gap-2 p-2 rounded-md w-full "
-                    style={{
-                      border: "1px solid var(--Border-bd-dark, #DADAE7)",
-                      outline: "none",
-                    }}
-                  />
-                </div>
-                <Button className="bg-[#0D6EFD] text-[14px] mb-4">
-                  Add User
-                </Button>
-              </form>
-            )}
             open={isOpen}
             setIsOpen={setIsOpen}
+            Content={Content}
           />
         </div>
         <div className="mt-4 flex justify-between px-6 items-center">

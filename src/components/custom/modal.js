@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/dialog";
 
 
-const Modal = ({Trigger, Title, Description, Content, open, setIsOpen}) => {
+const Modal = ({TriggerButton, Title, Description, Content, open, setIsOpen}) => {
   return (
     <Dialog open={open} onOpenChange={()=> setIsOpen(!open)}>
       <DialogTrigger asChild>
-        <Trigger/>
+        {TriggerButton}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="flex justify-center items-center">
