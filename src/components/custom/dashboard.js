@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import TriggerButton from "./trigger";
 import Title from "./title";
 import Content from "./content";
+import { ProgressDemo } from "./loading";
 
 const Dashboard = () => {
   const baseUrl = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL;
@@ -15,7 +16,7 @@ const Dashboard = () => {
   const [mode, setMode] = useState("add");
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const [userId, setUserId] = useState('')
+  const [userId, setUserId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const initialValues = {
     fullName: "",
@@ -29,6 +30,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true)
         const url = `${baseUrl}/users/`;
         console.log(url);
         const data_ = await axios(url);
@@ -36,6 +38,8 @@ const Dashboard = () => {
         setData(data_.data);
       } catch (error) {
         console.log(error);
+      }finally{
+        setLoading(false)
       }
     };
 
@@ -104,7 +108,9 @@ const Dashboard = () => {
           </div>
 
           <Modal
-            TriggerButton={<TriggerButton setIsOpen={setIsOpen} setMode={setMode} />}
+            TriggerButton={
+              <TriggerButton setIsOpen={setIsOpen} setMode={setMode} />
+            }
             Title={Title}
             userId={userId}
             Description="New Users"
@@ -161,58 +167,65 @@ const Dashboard = () => {
             <p className="text-[#1D2739] text-[12px] font-semibold">Actions</p>
           </div>
         </div>
-        <div
-          className="flex flex-col gap-5 p-5 bg-white mt-4 "
-          style={{
-            borderBottomLeftRadius: "8px",
-            borderBottomRightRadius: "8px",
-          }}
-        >
-          {data?.map((item, index) => (
-            <div
-              key={index}
-              className="flex justify-between py-4 items-center"
-              style={{ borderBottom: "1px solid #E5E7EB" }}
-            >
-              <div className="flex gap-1 items-center">
-                <input type="checkbox" className="w-[24px] h-[24]" />
-                <p className="text-[#101928] text-[12px] font-semibold">
-                  {item?.fullName}
-                </p>
-              </div>
-              <p className="text-[#344054] text-[12px]">{item?.email}</p>
+        {loading ? (
+          <p className="text-center mt-9">Loading...</p>
+        ) : (
+          <div
+            className="flex flex-col gap-5 p-5 bg-white mt-4 "
+            style={{
+              borderBottomLeftRadius: "8px",
+              borderBottomRightRadius: "8px",
+            }}
+          >
+            {data?.map((item, index) => (
+              <div
+                key={index}
+                className="flex justify-between py-4 items-center"
+                style={{ borderBottom: "1px solid #E5E7EB" }}
+              >
+                <div className="flex gap-1 items-center">
+                  <input type="checkbox" className="w-[24px] h-[24]" />
+                  <p className="text-[#101928] text-[12px] font-semibold">
+                    {item?.fullName}
+                  </p>
+                </div>
+                <p className="text-[#344054] text-[12px]">{item?.email}</p>
 
-              <p className="text-[#1D2739] text-[12px] font-semibold">
-                {item?.role}
-              </p>
-              <div className="flex items-center gap-4">
-                <p
-                  onClick={() => {
-                    setIsOpen(true);
-                    setMode("edit")
-                    setUserId(item.id)
-                    setFormValues({
-                      email: item.email,
-                      fullName: item.fullName,
-                      selectedRole: item.role,
-                      password: item.password
-                    });
-                  }}
-                  className="text-[#0D6EFD] text-[12px] font-semibold cursor-pointer"
-                >
-                  Edit
+                <p className="text-[#1D2739] text-[12px] font-semibold">
+                  {item?.role}
                 </p>
-                <p onClick={() => {
-                  setIsOpen(true);
-                  setUserId(item.id)
-                  setMode('delete')
-                }} className="text-[#98A2B3] text-[12px] cursor-pointer">
-                  Delete
-                </p>
+                <div className="flex items-center gap-4">
+                  <p
+                    onClick={() => {
+                      setIsOpen(true);
+                      setMode("edit");
+                      setUserId(item.id);
+                      setFormValues({
+                        email: item.email,
+                        fullName: item.fullName,
+                        selectedRole: item.role,
+                        password: item.password,
+                      });
+                    }}
+                    className="text-[#0D6EFD] text-[12px] font-semibold cursor-pointer"
+                  >
+                    Edit
+                  </p>
+                  <p
+                    onClick={() => {
+                      setIsOpen(true);
+                      setUserId(item.id);
+                      setMode("delete");
+                    }}
+                    className="text-[#98A2B3] text-[12px] cursor-pointer"
+                  >
+                    Delete
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
