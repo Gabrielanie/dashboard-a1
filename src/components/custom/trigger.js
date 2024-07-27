@@ -2,13 +2,19 @@ import React from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 
-const TriggerButton = ({setIsOpen, setMode}) => {
+const TriggerButton = ({ setIsOpen, setMode, setFormValues }) => {
   return (
     <div>
       <Button
         onClick={() => {
-          setIsOpen(true)
-          setMode("add")
+          setFormValues({
+            email: "",
+            fullName: "",
+            selectedRole: "",
+            password: "",
+          });
+          setIsOpen(true);
+          setMode("add");
         }}
         className="flex items-center gap-2 w-[130px] justify-center bg-[#0D6EFD] rounded-lg p-3"
       >

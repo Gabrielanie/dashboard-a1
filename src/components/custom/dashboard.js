@@ -7,7 +7,6 @@ import { Button } from "../ui/button";
 import TriggerButton from "./trigger";
 import Title from "./title";
 import Content from "./content";
-import { ProgressDemo } from "./loading";
 
 const Dashboard = () => {
   const baseUrl = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL;
@@ -30,7 +29,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         const url = `${baseUrl}/users/`;
         console.log(url);
         const data_ = await axios(url);
@@ -38,8 +37,8 @@ const Dashboard = () => {
         setData(data_.data);
       } catch (error) {
         console.log(error);
-      }finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -109,11 +108,21 @@ const Dashboard = () => {
 
           <Modal
             TriggerButton={
-              <TriggerButton setIsOpen={setIsOpen} setMode={setMode} />
+              <TriggerButton
+                setIsOpen={setIsOpen}
+                setMode={setMode}
+                setFormValues={setFormValues}
+              />
             }
             Title={Title}
             userId={userId}
-            Description="New Users"
+            Description={
+              mode === "add"
+                ? "New User"
+                : mode === "edit"
+                ? "Update User"
+                : "Delete this User"
+            }
             open={isOpen}
             setIsOpen={setIsOpen}
             Content={
@@ -130,7 +139,7 @@ const Dashboard = () => {
           />
         </div>
         <div className="mt-4 flex justify-between px-6 items-center">
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-1 items-center w-[15%]">
             <input type="checkbox" className="w-[24px] h-[24]" />
             <p className="text-[#1D2739] text-[12px] font-semibold">Name</p>
             <Image
@@ -141,7 +150,7 @@ const Dashboard = () => {
               className="cursor-pointer"
             />
           </div>
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-1 items-center w-[15%]">
             <p className="text-[#1D2739] text-[12px] font-semibold">
               Email Address
             </p>
@@ -153,7 +162,7 @@ const Dashboard = () => {
               className="cursor-pointer"
             />
           </div>
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-1 items-center w-[15%]">
             <p className="text-[#1D2739] text-[12px] font-semibold">Role</p>
             <Image
               src="/assets/chevronV.svg"
@@ -183,15 +192,27 @@ const Dashboard = () => {
                 className="flex justify-between py-4 items-center"
                 style={{ borderBottom: "1px solid #E5E7EB" }}
               >
-                <div className="flex gap-1 items-center">
+                <div className="flex gap-1 items-center w-[15%]">
                   <input type="checkbox" className="w-[24px] h-[24]" />
-                  <p className="text-[#101928] text-[12px] font-semibold">
+                  <p className="text-[#101928] text-[12px]  font-semibold truncate whitespace-break-space">
                     {item?.fullName}
                   </p>
                 </div>
-                <p className="text-[#344054] text-[12px]">{item?.email}</p>
+                <p className="text-[#344054] text-[12px] w-[15%] truncate whitespace-break-space">
+                  {item?.email}
+                </p>
 
-                <p className="text-[#1D2739] text-[12px] font-semibold">
+                <p
+                  className={`text-[#1D2739] p-1 text-center  rounded-3xl w-[15%] text-[14px] font-semibold ${
+                    item.role.toLowerCase() === "administrator"
+                      ? "bg-[#F0F6FE] text-[#297bf7]"
+                      : item.role.toLowerCase() === "sales manager"
+                      ? "bg-[#E7F6EC] text-[#0F973D]"
+                      : item.role.toLowerCase() === "sales representative"
+                      ? "bg-[#FEF4E6] text-[#F58A07]"
+                      : ""
+                  }`}
+                >
                   {item?.role}
                 </p>
                 <div className="flex items-center gap-4">
@@ -219,7 +240,7 @@ const Dashboard = () => {
                     }}
                     className="text-[#98A2B3] text-[12px] cursor-pointer"
                   >
-                    Delete
+                    Remove
                   </p>
                 </div>
               </div>

@@ -7,8 +7,8 @@ import Image from "next/image";
 const Content = ({
   setIsOpen,
   setRefresh,
-  refresh,
   formValues,
+  refresh,
   setFormValues,
   mode,
   userId,
@@ -57,12 +57,92 @@ const Content = ({
 
   return (
     <div>
-      {mode === "add" || mode === "edit" ? (
+      {mode === "add" && (
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
             <label className="text-[14px] font-medium">Email Address</label>
             <input
+              type="email"
+              value={formValues.email}
+              required
+              name="email"
+              onChange={handleChange}
+              placeholder="New User's Email Address"
+              className=" flex items-center text-[12px] gap-2 p-2 rounded-md w-full "
+              style={{
+                border: "1px solid var(--Border-bd-dark, #DADAE7)",
+                outlineStyle: "none",
+              }}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-[14px] font-medium text-[#475367]">
+              Full Name
+            </label>
+            <input
               type="text"
+              value={formValues.fullName}
+              name="fullName"
+              required
+              onChange={handleChange}
+              placeholder="New User's Full Name"
+              className=" flex items-center text-[12px] gap-2 p-2 rounded-md w-full "
+              style={{
+                border: "1px solid var(--Border-bd-dark, #DADAE7)",
+                outlineStyle: "none",
+              }}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-[14px] font-medium text-[#475367]">
+              Role
+            </label>
+            <select
+              name="selectedRole"
+              value={formValues.selectedRole}
+              onChange={handleChange}
+              id=""
+              style={{
+                border: "1px solid var(--Border-bd-dark, #DADAE7)",
+                outlineStyle: "none",
+              }}
+              className="w-100% text-[12px] px-5 py-2 rounded-lg flex gap-1"
+            >
+              <option value="">Select Role</option>
+              <option value="Administrator">Administrator</option>
+              <option value="Sales Manager">Sales Manager</option>
+              <option value="Sales Representative">Sales Representative</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-[14px] font-medium text-[#475367]">
+              Create Password
+            </label>
+            <input
+              type="password"
+              value={formValues.password}
+              name="password"
+              required
+              onChange={handleChange}
+              placeholder="Create a password for New User"
+              className=" flex text-[12px] items-center gap-2 p-2 rounded-md w-full "
+              style={{
+                border: "1px solid var(--Border-bd-dark, #DADAE7)",
+                outline: "none",
+              }}
+            />
+          </div>
+          <Button className="bg-[#0D6EFD] text-[14px] mb-4">Add User</Button>
+        </form>
+      )}
+
+      {mode === "edit" && (
+        <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+          <div className="flex flex-col gap-2">
+            <label className="text-[14px] font-medium">Email Address</label>
+            <input
+              type="email"
               value={formValues.email}
               required
               name="email"
@@ -117,7 +197,7 @@ const Content = ({
 
           <div className="flex flex-col gap-2">
             <label className="text-[14px] font-medium text-[#475367]">
-              Create Password
+              Change Password
             </label>
             <input
               type="password"
@@ -133,15 +213,11 @@ const Content = ({
               }}
             />
           </div>
-          <Button className="bg-[#0D6EFD] text-[14px] mb-4">
-            {mode === "add"
-              ? "Add User"
-              : mode === "edit"
-              ? "Update User"
-              : "Delete User"}
-          </Button>
+          <Button className="bg-[#0D6EFD] text-[14px] mb-4">Update User</Button>
         </form>
-      ) : (
+      )}
+
+      {mode === "delete" && (
         <div className="flex flex-col items-center justify-center gap-4">
           <p className="text-center">
             This user and all associated data will be permanently removed. Do
@@ -153,8 +229,10 @@ const Content = ({
               onClick={() => setIsOpen(false)}
               style={{ border: "1px solid #D0D5DD" }}
             >
-                <p className="text-[14px] font-semibold text-[#475367]"> Cancel action</p>
-             
+              <p className="text-[14px] font-semibold text-[#475367]">
+                {" "}
+                Cancel action
+              </p>
             </button>
             <button
               onClick={async () => {
@@ -170,7 +248,9 @@ const Content = ({
               style={{ border: "1px solid #EB9B98" }}
             >
               <Image src="/assets/del.svg" alt="" width={20} height={20} />
-              <p className="text-[14px] font-semibold text-[#D42620]">Yes, Delete</p>
+              <p className="text-[14px] font-semibold text-[#D42620]">
+                Yes, Delete
+              </p>
             </button>
           </div>
         </div>
