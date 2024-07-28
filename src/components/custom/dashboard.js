@@ -207,7 +207,7 @@ const Dashboard = () => {
                     item.role.toLowerCase() === "administrator"
                       ? "bg-[#F0F6FE] text-[#297bf7]"
                       : item.role.toLowerCase() === "sales manager"
-                      ? "bg-[#E7F6EC] text-[#0F973D]"
+                      ? "bg-[#E7F6EC] text-[#31be60]"
                       : item.role.toLowerCase() === "sales representative"
                       ? "bg-[#FEF4E6] text-[#F58A07]"
                       : ""
