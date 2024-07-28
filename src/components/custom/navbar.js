@@ -14,7 +14,6 @@ const Navbar = () => {
             type="text"
             value=""
             placeholder="Search here..."
-            // onChange={(e) => setQuery(e.target.value)}
             className="text-[12px] text-[#667185] "
             style={{
               outlineStyle: "none",

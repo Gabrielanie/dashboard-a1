@@ -189,7 +189,7 @@ const Content = ({
               className="w-100% text-[12px] px-5 py-2 rounded-lg flex gap-1"
             >
               <option value="">Select Role</option>
-              <option value="Admin">Admin</option>
+              <option value="Administrator">Administrator</option>
               <option value="Sales Manager">Sales Manager</option>
               <option value="Sales Representative">Sales Representative</option>
             </select>

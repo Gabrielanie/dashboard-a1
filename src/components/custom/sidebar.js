@@ -3,7 +3,7 @@ import React from "react";
 
 const Sidebar = () => {
   return (
-    <div className=" flex flex-col gap-10 mt-5 w-fit bg-white rounded-md h-fit px-4">
+    <div className="flex flex-col gap-10 mt-5 w-fit bg-white rounded-md h-fit px-4">
       <h1 className="mt-8 font-bold text-[12px] text-[#334155]">Settings</h1>
       <div className="flex flex-col gap-12 w-full">
         <div className="flex items-center gap-2 cursor-pointer">
