@@ -96,11 +96,11 @@ const Navbar = () => {
       )}
       {isMobile && (
         <>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center top-0 left-0 right-0 z-10 fixed bg-white">
             <div
               className={`${
                 open ? "hidden" : "flex"
-              }  px-4 gap-2 border-none items-center justify-between py-4`}
+              }  px-4 gap-4 border-none items-center justify-between py-4`}
             >
               <div className="flex gap-5 items-center">
                 <Image
